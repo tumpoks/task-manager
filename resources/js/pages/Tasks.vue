@@ -60,9 +60,7 @@ const addTask = async () => {
 
         if (!response.ok) {
             if (response.status === 422 && data.errors) {
-                error.value = Object.values(data.errors)
-                    .flat()
-                    .join(' ');
+                error.value = Object.values(data.errors).flat().join(' ');
             } else {
                 error.value = data.message || 'Unable to create task.';
             }
@@ -94,9 +92,7 @@ const startEditing = (task: Task) => {
 
     editingTask.value = {
         ...task,
-        due_date: task.due_date
-            ? task.due_date.substring(0, 10)
-            : null,
+        due_date: task.due_date ? task.due_date.substring(0, 10) : null,
     };
 };
 
@@ -115,30 +111,25 @@ const updateTask = async () => {
     submitting.value = true;
 
     try {
-        const response = await fetch(
-            `/api/tasks/${editingTask.value.id}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                body: JSON.stringify({
-                    title: editingTask.value.title,
-                    description: editingTask.value.description,
-                    status: editingTask.value.status,
-                    due_date: editingTask.value.due_date,
-                }),
+        const response = await fetch(`/api/tasks/${editingTask.value.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
             },
-        );
+            body: JSON.stringify({
+                title: editingTask.value.title,
+                description: editingTask.value.description,
+                status: editingTask.value.status,
+                due_date: editingTask.value.due_date,
+            }),
+        });
 
         const data = await response.json();
 
         if (!response.ok) {
             if (response.status === 422 && data.errors) {
-                error.value = Object.values(data.errors)
-                    .flat()
-                    .join(' ');
+                error.value = Object.values(data.errors).flat().join(' ');
             } else {
                 error.value = data.message || 'Unable to update task.';
             }
@@ -165,9 +156,7 @@ const updateTask = async () => {
 };
 
 const deleteTask = async (id: number) => {
-    const confirmed = confirm(
-        'Are you sure you want to delete this task?',
-    );
+    const confirmed = confirm('Are you sure you want to delete this task?');
 
     if (!confirmed) {
         return;
@@ -191,9 +180,7 @@ const deleteTask = async (id: number) => {
             return;
         }
 
-        tasks.value = tasks.value.filter(
-            (task) => task.id !== id,
-        );
+        tasks.value = tasks.value.filter((task) => task.id !== id);
 
         success.value = 'Task deleted successfully.';
     } catch (err) {
@@ -208,13 +195,9 @@ onMounted(fetchTasks);
 <template>
     <div class="min-h-screen bg-gray-100 p-8">
         <div class="mx-auto max-w-4xl">
-            <h1 class="mb-2 text-3xl font-bold text-gray-900">
-                Task Manager
-            </h1>
+            <h1 class="mb-2 text-3xl font-bold text-gray-900">Task Manager</h1>
 
-            <p class="mb-8 text-gray-600">
-                Manage your tasks.
-            </p>
+            <p class="mb-8 text-gray-600">Manage your tasks.</p>
 
             <!-- Success message -->
             <div
@@ -238,10 +221,7 @@ onMounted(fetchTasks);
                     Add New Task
                 </h2>
 
-                <form
-                    @submit.prevent="addTask"
-                    class="space-y-4"
-                >
+                <form @submit.prevent="addTask" class="space-y-4">
                     <div>
                         <label
                             for="title"
@@ -321,18 +301,12 @@ onMounted(fetchTasks);
             </div>
 
             <!-- Loading -->
-            <div
-                v-if="loading"
-                class="rounded-lg bg-white p-6 shadow"
-            >
+            <div v-if="loading" class="rounded-lg bg-white p-6 shadow">
                 Loading tasks...
             </div>
 
             <!-- Tasks -->
-            <div
-                v-else
-                class="space-y-4"
-            >
+            <div v-else class="space-y-4">
                 <div
                     v-for="task in tasks"
                     :key="task.id"
@@ -342,9 +316,7 @@ onMounted(fetchTasks);
                     <div v-if="editingTask?.id !== task.id">
                         <div class="flex items-start justify-between">
                             <div>
-                                <h2
-                                    class="text-xl font-semibold text-gray-900"
-                                >
+                                <h2 class="text-xl font-semibold text-gray-900">
                                     {{ task.title }}
                                 </h2>
 
@@ -395,16 +367,11 @@ onMounted(fetchTasks);
 
                     <!-- Edit Form -->
                     <div v-else-if="editingTask">
-                        <h2
-                            class="mb-4 text-xl font-semibold text-gray-900"
-                        >
+                        <h2 class="mb-4 text-xl font-semibold text-gray-900">
                             Edit Task
                         </h2>
 
-                        <form
-                            @submit.prevent="updateTask"
-                            class="space-y-4"
-                        >
+                        <form @submit.prevent="updateTask" class="space-y-4">
                             <div>
                                 <label
                                     class="mb-1 block text-sm font-medium text-gray-700"
@@ -444,13 +411,9 @@ onMounted(fetchTasks);
                                     v-model="editingTask.status"
                                     class="w-full rounded-lg border border-gray-300 px-4 py-2"
                                 >
-                                    <option value="Pending">
-                                        Pending
-                                    </option>
+                                    <option value="Pending">Pending</option>
 
-                                    <option value="Completed">
-                                        Completed
-                                    </option>
+                                    <option value="Completed">Completed</option>
                                 </select>
                             </div>
 
