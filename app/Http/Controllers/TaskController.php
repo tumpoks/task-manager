@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
-        return response()->json(Task::orderBy('created_at', 'desc')->get());
+        return response()->json(
+            Task::orderBy('created_at', 'desc')->get()
+        );
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'title' => 'required|string|max:150',
@@ -26,12 +29,12 @@ class TaskController extends Controller
         return response()->json($task, 201);
     }
 
-    public function show(Task $task)
+    public function show(Task $task): JsonResponse
     {
         return response()->json($task);
     }
 
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Task $task): JsonResponse
     {
         $validated = $request->validate([
             'title' => 'required|string|max:150',
@@ -45,12 +48,12 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    public function destroy(Task $task)
+    public function destroy(Task $task): JsonResponse
     {
         $task->delete();
 
         return response()->json([
-            'message' => 'Task deleted successfully.'
+            'message' => 'Task deleted successfully.',
         ]);
     }
 }
