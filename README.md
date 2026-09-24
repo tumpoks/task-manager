@@ -40,5 +40,5 @@ Before running the project, make sure the following are installed:
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
+git clone https://github.com/tumpoks/task-manager.git
 cd task-manager
