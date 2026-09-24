@@ -42,3 +42,7 @@ Before running the project, make sure the following are installed:
 ```bash
 git clone https://github.com/tumpoks/task-manager.git
 cd task-manager
+
+## Incomplete Work
+
+All requested functionality has been implemented and tested.
